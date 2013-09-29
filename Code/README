@@ -1,0 +1,10 @@
+Pour compiler le programme il suffit d'entrer la commande dans le terminal :
+	make
+
+Pour éxecuter le programme il faut entrer la commande dans le terminal :
+	./matriprod [-o OUTPUT_FILE] [-a] INPUT_FILE
+
+Où :
+	OUTPUT_FILE est un argument optionnel qui est le fichier où sera mis la solution. Si pas indiqué ce sera affiché à l'écran
+	a : (optionnel) si a est indiqué ça veut dire qu'on travaille sans matrice creuse, sinon ce sera avec des matrices creuses
+	INPUT_FILE : argument obligatoire qui donne le fichier d'entrée contenant les matrices
