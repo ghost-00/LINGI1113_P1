@@ -27,7 +27,8 @@
  Methode qui lit dans un fichier et stocke les matrices dans un buffer
  @post : buffer est renvoye avec toutes les matrices
 */
-node_t* lecture(char * name, int o);
+node_t*
+read_file(char * name);
 
 
 /*

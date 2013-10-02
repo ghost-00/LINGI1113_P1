@@ -9,7 +9,7 @@
 
 
 node_t *
-lecture(char * inputFile, int o){
+read_file(char * inputFile){
 	
 	matrix_reader_t *reader = matrix_reader_init(inputFile);
 	node_t *n = node_init();
@@ -17,14 +17,14 @@ lecture(char * inputFile, int o){
     while((m = matrix_reader_next(reader))!=NULL){
         matrix_prepend(n, m);
 	}
-    printf("nombre de matrice(s) : %d", n->length);
-    exit(EXIT_FAILURE);
-	//matrix_reader_free(reader);
-	return NULL;
+    
+    matrix_reader_free(reader);
+	return n;
 }
 /*
  *FIN
  */
+
 matrix* multiplicator(buffer* buf){
 	struct node *newcurrent = buf->first;
 	while(buf->size != 1){

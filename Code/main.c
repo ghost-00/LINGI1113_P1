@@ -39,8 +39,8 @@ int main (int argc, char* argv[])
     
     inputFile = (char*)argv[optind];
 
-	buffer* buf = lecture(inputFile, o);
-    
+	node_t* buf = read_file(inputFile);
+    printf("nombre de matrice(s) : %d", buf->length);
     /*
 	matrix* sol = multiplicator(buf);
 	if(output == 0)
@@ -50,7 +50,7 @@ int main (int argc, char* argv[])
     
 	matrix_free(sol);
 	*/
-    buffer_free(buf);
+    //buffer_free(buf);
 	return EXIT_SUCCESS;
      
 }
