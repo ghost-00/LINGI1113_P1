@@ -1,5 +1,5 @@
 /**
- *	Dumoulin Mehdi 45570900 et Huberlant Alexis 54701000
+ *	Dumoulin Mehdi & Zigabe Jos
  *	Projet 1 Systeme informatique 2
  **/
 
@@ -7,14 +7,16 @@
 #include "matrix_reader.h"
 
 
-buffer * lecture(char * name, int a){
-	buffer* buf=buffer_init();
-	matrix_reader_t *reader = matrix_reader_init(name);
-	matrix *m;
-	while((m = matrix_reader_next(reader,a)) != NULL){
-		struct node* temp= node_init(m);
+buffer * lecture(char * inputFile, int o){
+	
+    buffer* buf = buffer_init();
+	matrix_reader_t *reader = matrix_reader_init(inputFile);
+	matrix_t *m;
+    while((m = matrix_reader_next(reader,o)) != NULL){
+		struct node* temp = node_init(m);
 		enqueue(buf,temp);
 	}
+    
 	matrix_reader_free(reader);
 	return buf;
 }
@@ -54,12 +56,12 @@ void matrix_writefile(matrix *sol,char *outFile){
 			exit(EXIT_FAILURE);
 		}
 		int i,j,a;
-		elem* current=sol->first;
+		bit_t* current=sol->first;
 		for(i=0;i<sol->row;i++){
 			for(j=0;j<sol->col;j++){
 				a=matrix_get(current,i,j);
 				if(a){
-					current=current->next;
+					//current=current->next;
 				}
 				if((fprintf(fichier,"%d ",a)) == -1) {
 					perror("impossible d'ecrire dans le fichier");

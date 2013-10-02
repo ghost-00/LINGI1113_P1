@@ -1,9 +1,9 @@
 /**
- *	Dumoulin Mehdi 45570900 et Huberlant Alexis 54701000
- *	Projet 1 Systeme informatique 2
+ *	Dumoulin Mehdi & Zigabe jos
+ *	Projet 1 Multiplication de matrices creuses
  *
  *	main
-**/
+ **/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,37 +19,38 @@
 
 int main (int argc, char* argv[])
 {
-	int output = 0;
-	int c;
-	char *outFile = NULL;
-	int a = 0;
+	int o;
+	char *outputFile, *inputFile = NULL;
+	int opt = FALSE;
 	
-	while((c=getopt(argc,argv,"ao:")) != -1){
-		switch (c){
-        	case 'a':
-				a = 1;
-       			break;
+	while((opt=getopt(argc,argv,"o:")) != -1){
+		switch (opt){
 			case 'o':
-				output = 1;
-				outFile = optarg;
+				o = TRUE;
+				outputFile = optarg;
 				break;
         	case '?':
-       	 	break;
+                break;
+                printf ("Option non valide\n");
         	default:
-        	printf ("Option non valide\n");
+                printf ("Option non valide\n");
         }
 	}
+    
+    inputFile = (char*)argv[optind];
 
-	char *path=(char*)argv[optind];
-	buffer* buf = lecture(path,a);
-
+	buffer* buf = lecture(inputFile, o);
+    
+    /*
 	matrix* sol = multiplicator(buf);
 	if(output == 0)
 		matrix_print(sol);
 	else
 		matrix_writefile(sol,outFile);
-
+    
 	matrix_free(sol);
-	buffer_free(buf);
+	*/
+    buffer_free(buf);
 	return EXIT_SUCCESS;
+     
 }

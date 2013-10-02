@@ -17,7 +17,7 @@ typedef struct matrix_reader matrix_reader_t;
 
 matrix_reader_t * matrix_reader_init(const char *filename);
 
-matrix * matrix_reader_next(matrix_reader_t *r,int a);
+matrix_t* matrix_reader_next(matrix_reader_t *r,int a);
 
 void
 matrix_reader_free(matrix_reader_t *r);

@@ -20,6 +20,8 @@
 #include "matrix_reader.h"
 #include "matrice.h"
 
+#define TRUE 1
+#define FALSE 0
 
 /*
  Methode qui lit dans un fichier et stocke les matrices dans un buffer

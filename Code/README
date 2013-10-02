@@ -1,5 +1,5 @@
 Pour compiler le programme il suffit d'entrer la commande dans le terminal :
-	make
+	make 
 
 Pour éxecuter le programme il faut entrer la commande dans le terminal :
 	./matriprod [-o OUTPUT_FILE] [-a] INPUT_FILE

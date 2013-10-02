@@ -1,6 +1,6 @@
 /**
- *	Dumoulin Mehdi 45570900 et Huberlant Alexis 54701000
- *	Projet 1 Systeme informatique 2
+ *	Dumoulin Mehdi & Zigabe Jos
+ *	Projet 1 Multiplication de matrices creuses
  *	
  *	Fichier contenant l'implementation des methodes relatives au buffer 
  *	et a ses cellules
@@ -21,7 +21,7 @@ buffer *buffer_init(){
     return buf;
 }
 
-struct node *node_init(matrix *matrix){
+struct node *node_init(struct matrix_t *matrix){
     struct node *new;
     new = (struct node *)malloc(sizeof(struct node));
     if(!new)
@@ -52,7 +52,7 @@ void enqueue(buffer *buf, struct node *new){
 	}
 }
 
-matrix *dequeue(buffer *buf){
+struct matrix_t *dequeue(buffer *buf){
 	struct node *tempNode;
 	matrix *temp;
 	if(buf->size==2){
