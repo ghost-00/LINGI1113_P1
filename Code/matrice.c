@@ -14,7 +14,7 @@ node_init(){
         printf("allocation mémoire impossible");
         exit(EXIT_FAILURE);
     }
-    n->length=0; /*initialisation de la sous varialble length à zéro*/
+    n->n_length=0; /*initialisation de la sous varialble length à zéro*/
     return n;
 }
 matrix_t*
@@ -34,13 +34,15 @@ matrix_alloc(int col, int row){
 }
 
 row_t*
-row_alloc(void){
+row_alloc(matrix_t *m){
     row_t *r_new = malloc(sizeof (row_t));
     if (r_new != NULL)
     {
         r_new->r_head = NULL;
         r_new->r_tail = NULL;
     }
+    r_new->r_length = m->nr_col;
+    r_new->c_length = m->nr_row;
     return r_new;
 }
 
@@ -76,7 +78,7 @@ void
 row_prepend(matrix_t *m){
     
     if (m!=NULL) {
-        row_t *r_new = malloc(sizeof(row_t));
+        row_t *r_new = row_alloc(m);
         if (!r_new) {
             free(m);
         }
@@ -116,22 +118,67 @@ matrix_prepend(node_t *n, matrix_t *m){
             m->m_prev = n->n_tail; /* On fait pointer p_prev vers le dernier élément de la liste */
             n->n_tail = m; /* On fait pointer la fin de liste vers notre nouvel élément (fin du chaînage: 3 étapes) */
         }
-        n->length++;
+        n->n_length++;
     }
     
 }
 
+void
+row_print(row_t *r)
+{
+    printf("row : \n");
+    int row=0;
+    bit_t *b_temp = r->r_head;
+    
+    for (row=0; row < r->r_length; row++) {
+        if (b_temp!=NULL) {
+            if(b_temp->cPos == row){
+                printf("%d ", 1);
+                b_temp = b_temp->b_next;
+            }else{
+                printf("%d ", 0);
+            }
+        }else{
+            printf("%d ", 0);
+        }
+    }
+    printf("\n");
+}
+void
+col_print(row_t *c)
+{
+    printf("col :\n");
+    int row=0;
+    bit_t *r_temp = c->r_head;
+    
+    for (row=0; row < c->c_length; row++) {
+        if (r_temp!=NULL) {
+            if(r_temp->rPos == row){
+                printf("%d\n", 1);
+                r_temp = r_temp->b_next;
+            }else{
+                printf("%d\n", 0);
+            }
+        }else{
+            printf("%d\n", 0);
+        }
+    }
+    printf("\n");
+}
 
-void matrix_print(matrix_t *m)
+void
+matrix_print(matrix_t *m)
 {
     int bit=0, row=0, col=0;
     
     if (m!=NULL) {
+        printf("%dx%d\n", m->nr_row, m->nr_col);
+        
         row_t *r_temp = m->m_head;
         for (row=0; row < m->nr_row; row++) {
             bit_t *b_temp = r_temp->r_head;
             for (col=0; col < m->nr_col; col++) {
-
+                
                 bit = bit_getnext(b_temp, row, col);
                 
                 if (bit == 1) {
@@ -162,6 +209,72 @@ bit_getnext(bit_t* current_b,int current_row, int current_col)
     return 0;
 }
 
+row_t*
+row_get(matrix_t *m, int r){
+    if (r > m->nr_row) {
+        printf("row_get : r doit être =< %d\n", m->nr_row);
+        return NULL;
+    }
+    
+    int i=0;
+    row_t *r_temp = m->m_head;
+    
+    while (r_temp != NULL && i<(r-1))
+    {
+        r_temp = r_temp->r_next;
+        i++;
+    }
+    
+    return r_temp;
+}
+
+row_t*
+col_get(matrix_t *m, int c)
+{
+    if (c > m->nr_col) {
+        printf("col_get : r doit être =< %d\n", m->nr_col);
+        return NULL;
+    }
+    
+    row_t *c_new = row_alloc(m);
+    row_t *r_temp = m->m_head;
+    while (r_temp != NULL)
+    {
+        bit_t *b_temp = r_temp->r_head;
+        while (b_temp!=NULL) {
+            
+            if (b_temp->cPos == (c-1)) {
+                bit_prepend(c_new, c, b_temp->rPos);
+                //printf("%d \n",b_temp->val);
+            }
+            b_temp = b_temp->b_next;
+        }
+         r_temp = r_temp->r_next;
+    }
+    
+    return c_new;
+}
+
+matrix_t*
+matrix_get(node_t* n, int m){
+    
+    if (m > n->n_length) {
+        printf("matrix_get : m doit être =< %d\n", n->n_length);
+        return NULL;
+    }
+    
+    int i=0;
+    matrix_t *m_temp = n->n_head;
+    
+    while (m_temp != NULL && i<(m-1))
+    {
+        m_temp = m_temp->m_next;
+        i++;
+    }
+    
+    return m_temp;
+}
+
 
 /**********************/
 /*Le reste est à faire*/
@@ -178,11 +291,6 @@ void row_free(row_t* row){
 void bit_t_free(bit_t* e){
 	free(e);
 }
-
-
-
-
-
 
 int get(bit_t *e, int col, int row){
 	

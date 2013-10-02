@@ -40,9 +40,16 @@ int main (int argc, char* argv[])
     inputFile = (char*)argv[optind];
 
 	node_t* buf = read_file(inputFile);
-    printf("nombre de matrice(s) : %d\n", buf->length);
+    printf("nombre de matrice(s) : %d\n", buf->n_length);
     
-    matrix_print(buf->n_tail);
+    matrix_t *m = matrix_get(buf, 1);
+    matrix_print(m);
+    
+    row_t *r = row_get(m, m->nr_row);
+    row_print(r);
+    
+    row_t *c = col_get(m, 10);
+    col_print(c);
     /*
 	matrix* sol = multiplicator(buf);
 	if(output == 0)

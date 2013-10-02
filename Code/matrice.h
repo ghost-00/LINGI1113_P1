@@ -25,6 +25,7 @@ typedef struct bit_t bit_t;
  *Structure representant les lignes des matrices
  */
 struct row_t{
+    int r_length, c_length;
     struct row_t *r_next, *r_prev;
     bit_t *r_head, *r_tail;
 };
@@ -42,7 +43,7 @@ typedef struct matrix_t matrix_t;
  *Structure qui représente la liste contenant toutes les matrices
  */
 typedef struct{
-    int length;
+    int n_length;
     matrix_t *n_head, *n_tail;
 }node_t;
 
@@ -63,7 +64,7 @@ matrix_alloc(int col, int row);
  @post : une structure row_t alloué est renvoyé
  */
 row_t*
-row_alloc(void);
+row_alloc(matrix_t *m);
 /*
  Methode qui ajoute au debut de la liste r un bit dont les coordonnées sont donnée par cpos et rpos
  et qui aura en mémoire la position du prochain et du précédent bit de sa rangé
@@ -85,6 +86,55 @@ row_prepend(matrix_t *m);
  */
 void
 matrix_prepend(node_t *n, matrix_t *m);
+/*
+ Obtention d'un bit a une position d'une ligne donnee
+ @pre : b != null
+ @post : renvoie de la valeur de la matrice a la position donne
+ */
+int
+bit_getnext(bit_t *b, int col, int row);
+/*
+ Obtention de la m ieme matrice
+ @pre : n != null
+ @post : renvoie la matrice se trouvant à la position donnée
+ */
+matrix_t*
+matrix_get(node_t* n, int m);
+/*
+ Obtention de la r ieme ligne d'une matrice
+ @pre : m != null
+ @post : renvoie la ligne se trouvant à la position donnée
+ */
+row_t*
+row_get(matrix_t *m, int r);
+/*
+ Obtention de la c ieme colonne d'une matrice
+ @pre : m != null
+ @post : renvoie la colonne se trouvant à la position donnée
+ */
+row_t*
+col_get(matrix_t *m, int c);
+/*
+ Methode qui affiche sur l'ecran une ligne r d'une matrice
+ @pre : r != null
+ @post : r est affiché à l'ecran
+ */
+void
+row_print(row_t *r);
+/*
+ Methode qui affiche sur l'ecran une colonne c d'une matrice
+ @pre : c != null
+ @post : c est affiche à l'ecran
+ */
+void
+col_print(row_t *c);
+/*
+ Methode qui affiche sur l'ecran une matrice
+ @pre : m != null
+ @post : m est affiche e l'ecran
+ */
+void
+matrix_print(matrix_t *m);
 
  /************************************************************************************************/
  /*FIN de la structure, le reste est à arranger ou à refaire ou à retirer en fonction des besoins*/
@@ -110,48 +160,11 @@ void row_free(row_t* row);
 */
 void elem_free(bit_t* e);
 
-
-/*
- Methode qui affiche sur l'ecran une matrice
- @pre : m != null
- @post : m est affiche e l'ecran
-*/
-void
-matrix_print(matrix_t *m);
-
-
-/*
- Ajout d'un element dans une matrice a une position donnee
- @pre : m != null
- @post : val est ajoute dans m avec sa position
-*/
-void matrix_set(bit_t *row_list, int row, int col);
-
-
 /*
  Multiplication entre deux matrices
  @pre : a != null, b != null
  @post : renvoie du pointeur de la solution de la multiplication entre la matrice a et b
 */
 matrix* matrix_mult(matrix* a, matrix* b);
-
-
-/*
- Obtention d'un element a une position donnee
- @pre : e != null
- @post : renvoie de la valeur de la matrice a la position donne
-*/
-int
-bit_getnext(bit_t *b, int col, int row);
-
-
-/*
- Donne l'élément en i,j en connaissant le prochain élément 
- @pre : current != null
- @post : renvoie l'elemen demandee
-*/
-int matrix_get(bit_t* current,int i, int j);
-
-
 
 #endif

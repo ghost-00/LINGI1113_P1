@@ -38,8 +38,6 @@ matrix_t
         return 0;
     
     matrix_t *m = matrix_alloc(col, row); /*Allocation mémoire*/
-
-    printf("%dx%d\n", m->nr_row, m->nr_col);
     
 	for (i = 0; i < m->nr_row; ++i) {
         
@@ -52,17 +50,12 @@ matrix_t
 				exit(EXIT_FAILURE);
 			}
 			if(bit!=0){
-                /*On ajoute le nouveau bit en début de la liste m->m_tail 
+                /*On ajoute le nouveau bit en fin de la liste m->m_tail 
                  *qui est liste de type row_t
                  */
                 bit_prepend(m->m_tail, j, i); 
-                printf("%d ", m->m_tail->r_tail->val);
-            }
-            else{
-                printf("  ");
             }
 		}
-        printf("\n");
 	}
     return m;
 }

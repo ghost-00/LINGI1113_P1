@@ -27,7 +27,4 @@ matrix_reader_next(matrix_reader_t *r);
 
 void
 matrix_reader_free(matrix_reader_t *r);
-
-int
-reader_hasnext(matrix_reader_t *r, node_t *n);
 #endif
