@@ -24,7 +24,7 @@ read_file(char * inputFile){
 /*
  *FIN
  */
-
+/*
 matrix* multiplicator(buffer* buf){
 	struct node *newcurrent = buf->first;
 	while(buf->size != 1){
@@ -50,7 +50,8 @@ matrix* multiplicator(buffer* buf){
 
 	return dequeue(buf);
 }
-
+ */
+/*
 void matrix_writefile(matrix *sol,char *outFile){
 	FILE* fichier = NULL;
 	fichier = fopen(outFile, "w");
@@ -78,5 +79,5 @@ void matrix_writefile(matrix *sol,char *outFile){
 	}
 	fclose(fichier);
 }
-
+*/
 

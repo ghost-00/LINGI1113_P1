@@ -59,7 +59,7 @@ matrix_t
                 printf("%d ", m->m_tail->r_tail->val);
             }
             else{
-                printf("%d ", bit);
+                printf("  ");
             }
 		}
         printf("\n");

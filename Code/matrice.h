@@ -116,7 +116,8 @@ void elem_free(bit_t* e);
  @pre : m != null
  @post : m est affiche e l'ecran
 */
-void matrix_print(matrix* m);
+void
+matrix_print(matrix_t *m);
 
 
 /*
@@ -140,7 +141,8 @@ matrix* matrix_mult(matrix* a, matrix* b);
  @pre : e != null
  @post : renvoie de la valeur de la matrice a la position donne
 */
-int get(bit_t *e, int col, int row);
+int
+bit_getnext(bit_t *b, int col, int row);
 
 
 /*
