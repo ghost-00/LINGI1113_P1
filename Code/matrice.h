@@ -1,6 +1,6 @@
 /**
  *	Dumoulin Mehdi & Zigabe Jos
- *	Projet 1 Systeme informatique 2
+ *	Projet 1 Multiplication de matrices creuses
  *
  *	Fichier contente l'en-tete des methodes relatives aux matrices
  **/
@@ -14,46 +14,87 @@
 
 
 /*
- Structure representant un nombre dans une matrice
-*/
+ *Structure representant un bit dans une matrice
+ */
 struct bit_t{
     int rPos,cPos,val;
 	struct bit_t *b_next, *b_prev;
 };
 typedef struct bit_t bit_t;
-	
-
-
 /*
- Structure representant une matrice
-*/
+ *Structure representant les lignes des matrices
+ */
 struct row_t{
     struct row_t *r_next, *r_prev;
     bit_t *r_head, *r_tail;
 };
 typedef struct row_t row_t;
-
-typedef struct{
+/*
+ *Structure représentant les matrices
+ */
+struct matrix_t{
     int nr_col, nr_row;
+    struct matrix_t *m_next, *m_prev;
     row_t *m_head, *m_tail;
-}matrix_t;
+};
+typedef struct matrix_t matrix_t;
+/*
+ *Structure qui représente la liste contenant toutes les matrices
+ */
+typedef struct{
+    int length;
+    matrix_t *n_head, *n_tail;
+}node_t;
 
+/*
+ Methode qui initialise une liste
+ @post : une structure node_t alloué est renvoyé avec length initialisé à 0
+ */
+node_t*
+node_init();
+/*
+ Methode qui initialise une matrice
+ @post : une matrice alloué est renvoyé et contient le nombre de colonne et de ligne
+ */
+matrix_t*
+matrix_alloc(int col, int row);
+/*
+ Methode qui initialise une ligne de la matrice
+ @post : une structure row_t alloué est renvoyé
+ */
+row_t*
+row_alloc(void);
+/*
+ Methode qui ajoute au debut de la liste r un bit dont les coordonnées sont donnée par cpos et rpos
+ et qui aura en mémoire la position du prochain et du précédent bit de sa rangé
+ @post : un bit est ajouté en debut de la liste r.
+ */
+void
+bit_prepend(row_t *r, int cpos, int rpos);
+/*
+ Methode qui ajoute au debut de la liste m une ligne
+ et qui aura en mémoire la position de la prochaine et de la précédente ligne de la matrice
+ @post : une ligne est ajoutée en debut de la liste m.
+ */
+void
+row_prepend(matrix_t *m);
+/*
+ Methode qui ajoute au debut de la liste n la matrice m
+ et qui aura en mémoire la position de la prochaine et de la précédente matrice
+ @post : une matrice est ajouté en debut de la liste n.
+ */
+void
+matrix_prepend(node_t *n, matrix_t *m);
 
+ /************************************************************************************************/
+ /*FIN de la structure, le reste est à arranger ou à refaire ou à retirer en fonction des besoins*/
+ /************************************************************************************************/
 
 
 typedef struct{
 	int row, col;
 	bit_t *first;
 }matrix;
-
-
-/*
- Methode qui initialise une matrice
- @post : une matrice alloué est renvoyé et contient le nombre de colonne et de ligne
-*/
-matrix_t* matrix_alloc(int col, int row);
-
-
 /*
  Methode qui free une matrice
  @pre : m != NULL
@@ -109,9 +150,6 @@ int get(bit_t *e, int col, int row);
 */
 int matrix_get(bit_t* current,int i, int j);
 
-row_t* row_alloc(void);
 
-void row_prepend(row_t *r, int cpos, int rpos);
-void matrix_prepend(matrix_t *m);
 
 #endif

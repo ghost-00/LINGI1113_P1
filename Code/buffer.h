@@ -72,7 +72,7 @@ void buffer_free(buffer *buf);
  @post : un pointeur vers une cellule initialisee est renvoye et la matrice
 	en parametre est ajoute a celle-ci.
 */
-struct node *node_init(struct matrix_t *matrix);
+//struct node *node_init(struct matrix_t *matrix);
 
 
 /*

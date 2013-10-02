@@ -21,7 +21,7 @@ buffer *buffer_init(){
     return buf;
 }
 
-struct node *node_init(struct matrix_t *matrix){
+/*struct node *node_init(struct matrix_t *matrix){
     struct node *new;
     new = (struct node *)malloc(sizeof(struct node));
     if(!new)
@@ -29,7 +29,7 @@ struct node *node_init(struct matrix_t *matrix){
     new->next=NULL;
     new->val=matrix;
     return new;
-}
+}*/
 
 void enqueue(buffer *buf, struct node *new){
 	if(buf->size==0){

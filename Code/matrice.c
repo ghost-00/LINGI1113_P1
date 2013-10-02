@@ -1,17 +1,29 @@
 /**
- *	Dumoulin Mehdi 45570900 et Huberlant Alexis 54701000
- *	Projet 1 Systeme informatique 2
+ *	Dumoulin Mehdi & Zigabe Jos
+ *	Projet 1 Multiplication de matrices creuses
  *
  *	Fichier implementant les methodes relatives au matrice
  **/
 
 #include "matrice.h"
 
-matrix_t* matrix_alloc(int col, int row){
+node_t*
+node_init(){
+    node_t *n = malloc(sizeof(node_t)); /*allocation mémoire pour la structure n de type node_t*/
+    if (!n) {
+        printf("allocation mémoire impossible");
+        exit(EXIT_FAILURE);
+    }
+    n->length=0; /*initialisation de la sous varialble length à zéro*/
+    return n;
+}
+matrix_t*
+matrix_alloc(int col, int row){
 	matrix_t *m;
 	m = (matrix_t*)malloc(sizeof(matrix_t));
 	if(!m)
 	{
+        printf("allocation mémoire impossible");
 		exit(EXIT_FAILURE);
 	}
     m->nr_col = col;
@@ -21,7 +33,8 @@ matrix_t* matrix_alloc(int col, int row){
     return m;
 }
 
-row_t* row_alloc(void){
+row_t*
+row_alloc(void){
     row_t *r_new = malloc(sizeof (row_t));
     if (r_new != NULL)
     {
@@ -30,6 +43,11 @@ row_t* row_alloc(void){
     }
     return r_new;
 }
+
+/**********************/
+/*Le reste est à faire*/
+/**********************/
+
 void matrix_free(matrix_t* m){
 	free(m);
 }
@@ -123,7 +141,7 @@ matrix* matrix_mult(matrix* a, matrix* b){
     return sol;
 }
 
-void row_prepend(row_t *r, int col, int row){
+void bit_prepend(row_t *r, int col, int row){
     
     if (r!=NULL) {
         bit_t *b_new = malloc(sizeof(bit_t));
@@ -150,7 +168,7 @@ void row_prepend(row_t *r, int col, int row){
     }
 }
 
-void matrix_prepend(matrix_t *m){
+void row_prepend(matrix_t *m){
     
     if (m!=NULL) {
         row_t *r_new = malloc(sizeof(row_t));
@@ -174,6 +192,27 @@ void matrix_prepend(matrix_t *m){
         }
         
     }
+}
+
+void matrix_prepend(node_t *n, matrix_t *m){
+    
+    if (n!=NULL && m!=NULL) {
+        m->m_prev = NULL;
+        if (n->n_tail == NULL) /* Cas où notre liste est vide (pointeur vers fin de liste à  NULL) */
+        {
+            m->m_next = NULL; /* On fait pointer p_prev vers NULL */
+            n->n_head = m; /* On fait pointer la tête de liste vers le nouvel élément */
+            n->n_tail = m; /* On fait pointer la fin de liste vers le nouvel élément */
+        }
+        else /* Cas où des éléments sont déjà présents dans notre liste */
+        {
+            n->n_head->m_prev = m; /* On relie le dernier élément de la liste vers notre nouvel élément (début du chaînage) */
+            m->m_next = n->n_head; /* On fait pointer p_prev vers le dernier élément de la liste */
+            n->n_head = m; /* On fait pointer la fin de liste vers notre nouvel élément (fin du chaînage: 3 étapes) */
+        }
+        n->length++;
+    }
+    
 }
 
 

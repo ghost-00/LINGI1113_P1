@@ -5,22 +5,26 @@
 
 #include "projet.h"
 #include "matrix_reader.h"
+#include "matrice.h"
 
 
-buffer * lecture(char * inputFile, int o){
+node_t *
+lecture(char * inputFile, int o){
 	
-    buffer* buf = buffer_init();
 	matrix_reader_t *reader = matrix_reader_init(inputFile);
-	matrix_t *m;
-    while((m = matrix_reader_next(reader,o)) != NULL){
-		struct node* temp = node_init(m);
-		enqueue(buf,temp);
+	node_t *n = node_init();
+    matrix_t *m = NULL;
+    while((m = matrix_reader_next(reader))!=NULL){
+        matrix_prepend(n, m);
 	}
-    
-	matrix_reader_free(reader);
-	return buf;
+    printf("nombre de matrice(s) : %d", n->length);
+    exit(EXIT_FAILURE);
+	//matrix_reader_free(reader);
+	return NULL;
 }
-
+/*
+ *FIN
+ */
 matrix* multiplicator(buffer* buf){
 	struct node *newcurrent = buf->first;
 	while(buf->size != 1){
