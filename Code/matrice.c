@@ -287,6 +287,14 @@ matrix_get(node_t* n, int m){
 
 matrix_t*
 matrix_mul(matrix_t *m_one, matrix_t *m_two){
+    
+    if (m_one->nr_row != m_two->nr_col || m_one->nr_col!=m_two->nr_row) {
+        printf("Matrices incompatibles\n");
+        matrix_free(&m_one); /*on libère l'espace mémoire attribué à ces deux matrices*/
+        matrix_free(&m_two);
+        return NULL;
+    }
+    
     matrix_t *m_result = matrix_alloc(m_two->nr_col, m_one->nr_row);
 	int i=0, j=0, bit;
     row_t *row=NULL, *col=NULL ;

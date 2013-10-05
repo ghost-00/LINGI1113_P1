@@ -34,6 +34,7 @@ matrix_t
 {
 	int bit=0, i=0, j=0, col=0, row=0;
     
+    
     if (fscanf(reader->f,"%dx%d\n", &row, &col) == EOF)
         return 0;
     
