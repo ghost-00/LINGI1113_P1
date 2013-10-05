@@ -15,7 +15,7 @@ matrix_reader_init(const char *inputFile)
 {
 	matrix_reader_t * r;
 	
-	r = malloc(sizeof(*r));
+	r = malloc(sizeof(*r)); /*Allocation mémoire*/
 	if (!r)
 		return NULL;
     

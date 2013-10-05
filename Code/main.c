@@ -27,7 +27,7 @@ int main (int argc, char* argv[])
 		switch (opt){
 			case 'o':
 				o = TRUE;
-				outputFile = optarg;
+				outputFile = optarg; /*On récupère le outputPath*/
 				break;
         	case '?':
                 break;
@@ -37,15 +37,17 @@ int main (int argc, char* argv[])
         }
 	}
     
-    inputFile = (char*)argv[optind];
+    inputFile = (char*)argv[optind]; /*On récupère le inputpath*/
 
-	node_t* buf = read_file(inputFile);
-    //printf("nombre de matrice(s) : %d\n", buf->n_length);
+	node_t* buf = read_file(inputFile); /*On extrait les matrices du fichier inputFile*/
+    
+    printf("nombre de matrice(s) : %d\n", buf->n_length);
+    
     matrix_print(matrix_get(buf, 1));
         
-	matrix_t* p = multiplicator(buf);
+	//matrix_t* p = multiplicator(buf);
     
-    matrix_print(p);
+    //matrix_print(p);
     /*
 	if(output == 0)
 		matrix_print(sol);

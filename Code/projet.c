@@ -12,12 +12,16 @@ node_t *
 read_file(char * inputFile){
 	
 	matrix_reader_t *reader = matrix_reader_init(inputFile);
-	node_t *n = node_init();
+	node_t *n = node_init(); /*Initialisation du buffer qui contiendra les matrice extraite du fichier*/
     matrix_t *m = NULL;
-    while((m = matrix_reader_next(reader))!=NULL){
+    while((m = matrix_reader_next(reader))!=NULL)
+    {/*Tant qu'il y aura une matrice à lire dans le fichier, on les rajoute dans notre buffer*/
         matrix_prepend(n, m);
+        if (n->n_length == 2)
+        {/*Si on a deux matrice dans notre buffer on effectue la multiplication*/
+            matrix_prepend(n, multiplicator(n));/*Le résltat est directement placé dans le buffer*/
+        }
 	}
-    
     matrix_reader_free(reader);
 	return n;
 }
@@ -32,6 +36,10 @@ multiplicator(node_t* buf){
         m_one = matrix_mul(m_one, m_temp);
         m_temp= m_temp->m_next;
 	}
+    buf->n_head = NULL;
+    buf->n_tail = NULL;
+    buf->n_length = 0;
+
 	return m_one;
 }
 /*

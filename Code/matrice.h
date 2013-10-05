@@ -145,6 +145,19 @@ matrix_mul(matrix_t *a, matrix_t *b);
 
 int
 row_mul(row_t *row, row_t *col, int rPos, int cPos);
+/*
+ Methode qui free une matrice
+ @pre : m != NULL
+ @post : m est free
+ */
+void
+buf_free(node_t **n);
+
+void
+matrix_free(matrix_t **m);
+
+void
+row_free(row_t **r);
 
  /************************************************************************************************/
  /*FIN de la structure, le reste est à arranger ou à refaire ou à retirer en fonction des besoins*/
@@ -155,14 +168,7 @@ typedef struct{
 	int row, col;
 	bit_t *first;
 }matrix;
-/*
- Methode qui free une matrice
- @pre : m != NULL
- @post : m est free
-*/
-void matrix_free(matrix_t* m);
 
-void row_free(row_t* row);
 /*
  Methode qui free un element d'une matrice
  @pre : e != null

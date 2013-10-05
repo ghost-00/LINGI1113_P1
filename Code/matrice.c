@@ -148,6 +148,7 @@ row_print(row_t *r)
     }
     printf("\n");
 }
+
 void
 col_print(row_t *c)
 {
@@ -216,7 +217,6 @@ bit_getnext(bit_t* current_b,int current_row, int current_col)
             return 1;
         }
 	}
-    
     return 0;
 }
 
@@ -235,7 +235,6 @@ row_get(matrix_t *m, int r){
         r_temp = r_temp->r_next;
         i++;
     }
-    
     return r_temp;
 }
 
@@ -262,7 +261,6 @@ col_get(matrix_t *m, int c)
         }
         r_temp = r_temp->r_next;
     }
-    
     return c_new;
 }
 
@@ -281,8 +279,7 @@ matrix_get(node_t* n, int m){
     {
         m_temp = m_temp->m_next;
         i++;
-    }
-    
+    }    
     return m_temp;
 }
 
@@ -306,6 +303,10 @@ matrix_mul(matrix_t *m_one, matrix_t *m_two){
             }
         }
     }
+    
+    matrix_free(&m_one); /*on libère l'espace mémoire attribué à ces deux matrices*/
+    matrix_free(&m_two);
+    
     return m_result;
 }
 
@@ -329,4 +330,51 @@ row_mul(row_t *row, row_t *col, int rPos, int cPos){
         }
     }
     return acc;
+}
+
+
+void
+buf_free(node_t **n){
+    if (*n != NULL)
+    {
+        matrix_t *m_temp = (*n)->n_head;
+        while (m_temp != NULL)
+        {
+            matrix_t *m_del = m_temp;
+            m_temp = m_temp->m_next;
+
+            matrix_free(&m_del);
+        }
+        free(*n), *n=NULL;
+    }
+}
+
+void
+matrix_free(matrix_t **m){
+    if (*m != NULL)
+    {
+        row_t *r_temp = (*m)->m_head;
+        while (r_temp != NULL)
+        {
+            row_t *r_del = r_temp;
+            r_temp = r_temp->r_next;
+            free(r_del);
+        }
+        free(*m), *m=NULL;
+    }
+}
+
+void
+row_free(row_t **r){
+    if (*r != NULL)
+    {
+        bit_t *b_temp = (*r)->r_head;
+        while (b_temp != NULL)
+        {
+            bit_t *b_del = b_temp;
+            b_temp = b_temp->b_next;
+            free(b_del);
+        }
+        free(*r), *r=NULL;
+    }
 }
