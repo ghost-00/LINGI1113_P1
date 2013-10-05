@@ -135,6 +135,16 @@ col_print(row_t *c);
  */
 void
 matrix_print(matrix_t *m);
+/*
+ Multiplication entre deux matrices
+ @pre : a != null, b != null
+ @post : renvoie du pointeur de la solution de la multiplication entre la matrice a et b
+ */
+matrix_t*
+matrix_mul(matrix_t *a, matrix_t *b);
+
+int
+row_mul(row_t *row, row_t *col, int rPos, int cPos);
 
  /************************************************************************************************/
  /*FIN de la structure, le reste est à arranger ou à refaire ou à retirer en fonction des besoins*/
@@ -159,12 +169,5 @@ void row_free(row_t* row);
  @post : elem est free
 */
 void elem_free(bit_t* e);
-
-/*
- Multiplication entre deux matrices
- @pre : a != null, b != null
- @post : renvoie du pointeur de la solution de la multiplication entre la matrice a et b
-*/
-matrix* matrix_mult(matrix* a, matrix* b);
 
 #endif

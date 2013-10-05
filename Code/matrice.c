@@ -126,6 +126,10 @@ matrix_prepend(node_t *n, matrix_t *m){
 void
 row_print(row_t *r)
 {
+    if (r==NULL) {
+        printf("row_print : r == NULL");
+        exit(EXIT_FAILURE);
+    }
     printf("row : \n");
     int row=0;
     bit_t *b_temp = r->r_head;
@@ -147,6 +151,10 @@ row_print(row_t *r)
 void
 col_print(row_t *c)
 {
+    if (c==NULL) {
+        printf("col_print : c == NULL");
+        exit(EXIT_FAILURE);
+    }
     printf("col :\n");
     int row=0;
     bit_t *r_temp = c->r_head;
@@ -169,30 +177,33 @@ col_print(row_t *c)
 void
 matrix_print(matrix_t *m)
 {
+    if (m==NULL) {
+        printf("matrix_print : m == NULL");
+        exit(EXIT_FAILURE);
+    }
     int bit=0, row=0, col=0;
     
-    if (m!=NULL) {
-        printf("%dx%d\n", m->nr_row, m->nr_col);
-        
-        row_t *r_temp = m->m_head;
-        for (row=0; row < m->nr_row; row++) {
-            bit_t *b_temp = r_temp->r_head;
-            for (col=0; col < m->nr_col; col++) {
-                
-                bit = bit_getnext(b_temp, row, col);
-                
-                if (bit == 1) {
-                    printf("%d ", 1);
-                    if (b_temp->b_next!=NULL) {
-                        b_temp = b_temp->b_next;
-                    }
-                }else{
-                    printf("%d ", 0);
+    
+    printf("%dx%d\n", m->nr_row, m->nr_col);
+    
+    row_t *r_temp = m->m_head;
+    for (row=0; row < m->nr_row; row++) {
+        bit_t *b_temp = r_temp->r_head;
+        for (col=0; col < m->nr_col; col++) {
+            
+            bit = bit_getnext(b_temp, row, col);
+            
+            if (bit == 1) {
+                printf("%d ", 1);
+                if (b_temp->b_next!=NULL) {
+                    b_temp = b_temp->b_next;
                 }
+            }else{
+                printf("%d ", 0);
             }
-            printf("\n");
-            r_temp = r_temp->r_next;
         }
+        printf("\n");
+        r_temp = r_temp->r_next;
     }
 }
 
@@ -244,12 +255,12 @@ col_get(matrix_t *m, int c)
         while (b_temp!=NULL) {
             
             if (b_temp->cPos == (c-1)) {
-                bit_prepend(c_new, c, b_temp->rPos);
+                bit_prepend(c_new, c-1, b_temp->rPos);
                 //printf("%d \n",b_temp->val);
             }
             b_temp = b_temp->b_next;
         }
-         r_temp = r_temp->r_next;
+        r_temp = r_temp->r_next;
     }
     
     return c_new;
@@ -275,62 +286,47 @@ matrix_get(node_t* n, int m){
     return m_temp;
 }
 
-
-/**********************/
-/*Le reste est à faire*/
-/**********************/
-
-void matrix_free(matrix_t* m){
-	free(m);
-}
-void row_free(row_t* row){
-    free(row);
-}
-
-
-void bit_t_free(bit_t* e){
-	free(e);
-}
-
-int get(bit_t *e, int col, int row){
-	
-	if((e->cPos == col)&&(e->rPos == row))
-		return e->val;
+matrix_t*
+matrix_mul(matrix_t *m_one, matrix_t *m_two){
+    matrix_t *m_result = matrix_alloc(m_two->nr_col, m_one->nr_row);
+	int i=0, j=0, bit;
+    row_t *row=NULL, *col=NULL ;
     
-	if((e->cPos > col)&&(e->rPos > row))
-		return 0;
-    
-	if(e->cPos == -1)
-		return 0;
-    
-	return 0;//get(e->next, col, row);
-    
-}
-
-
-matrix* matrix_mult(matrix* a, matrix* b){
-    matrix* sol = matrix_alloc(b->col,a->row);
-	bit_t* temp=sol->first;
-	int m=0;
-    for(int i=0;i<a->row;i++)
-	{
-        for(int j=0;j<b->col;j++)
-		{
-            m=0;
-            for(int k=0;k<b->row;k++)
-			{
-                m += (get(a->first,k,i)*get(b->first,j,k));
-            }
-			if(m!=0)
-			{
-				//matrix_set(temp,i,j,m);
-				//temp=temp->next;
-			}
+    for (i=0; i<m_two->nr_col; i++) {
+        row_prepend(m_result);
+        row = row_get(m_one, (i+1));
+        for (j=0; j<m_one->nr_row; j++) {
+            col = col_get(m_two, (j+1));
             
+            if (col!=NULL && row!=NULL) {
+                bit = row_mul(row, col, i, j);
+                if (bit==1) {
+                    bit_prepend(m_result->m_tail, j, i);
+                }
+            }
         }
     }
-    return sol;
+    return m_result;
 }
 
-
-
+int
+row_mul(row_t *row, row_t *col, int rPos, int cPos){
+    
+    int i=0, r_bit, c_bit, acc=0;
+    
+    bit_t *rowb_temp = row->r_head;
+    bit_t *colb_temp = col->r_head;
+    
+    for (i=0; i < row->r_length; i++) {
+        r_bit = bit_getnext(rowb_temp, rPos, i);
+        c_bit = bit_getnext(colb_temp, i, cPos);
+        acc = acc + (r_bit * c_bit);
+        if (r_bit == 1) {
+            rowb_temp = rowb_temp->b_next;
+        }
+        if (c_bit == 1) {
+            colb_temp = colb_temp->b_next;
+        }
+    }
+    return acc;
+}

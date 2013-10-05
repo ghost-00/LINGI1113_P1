@@ -40,9 +40,7 @@ matrix_t
     matrix_t *m = matrix_alloc(col, row); /*Allocation mémoire*/
     
 	for (i = 0; i < m->nr_row; ++i) {
-        
         row_prepend(m); /*On ajoute la nouvelle ligne en début de la liste m*/
-        
         for (j = 0; j < m->nr_col; ++j) {
             
 			if (fscanf(reader->f, "%d", &bit) == EOF) {
@@ -60,18 +58,6 @@ matrix_t
     return m;
 }
 
-/*
- *FIN
- */
-int
-reader_hasnext(matrix_reader_t *r, node_t *n){
-    int col=0, row=0;
-    
-    if (fscanf(r->f,"%dx%d\n", &row, &col) == EOF)
-        return 0;
-    //matrix_prepend(n, col, row);
-    return 1;
-}
 void
 matrix_reader_free(matrix_reader_t *r)
 {

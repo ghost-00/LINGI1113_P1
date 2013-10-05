@@ -36,7 +36,8 @@ read_file(char * name);
  @pre : buf != null
  @post : renvoie d'une matrice qui contient la solution
 */
-matrix* multiplicator(buffer* buf);
+matrix_t*
+multiplicator(node_t* buf);
 
 
 /*
