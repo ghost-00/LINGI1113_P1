@@ -20,9 +20,6 @@
 #include "matrix_reader.h"
 #include "matrice.h"
 
-#define TRUE 1
-#define FALSE 0
-
 /*
  Methode qui lit dans un fichier et stocke les matrices dans un buffer
  @post : buffer est renvoye avec toutes les matrices
@@ -43,7 +40,7 @@ multiplicator(node_t* buf);
 /*
  Methode qui ecrit une matrice dans un fichier
  @pre : result != null
- @post : result est ecrite dans le fichier avec le path outFile
+ @post : result est ecrite dans le fichier avec le path outputFile
 */
 void matrix_writefile(matrix_t *result,char *outputFile);
 

@@ -51,5 +51,4 @@ int main (int argc, char* argv[])
 
     buf_free(&buf);
 	return EXIT_SUCCESS;
-     
 }

@@ -43,7 +43,6 @@ multiplicator(node_t* buf){
 	return m_one;
 }
 
-
 void
 matrix_writefile(matrix_t *result,char *outputFile){
     

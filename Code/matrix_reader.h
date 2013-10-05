@@ -21,10 +21,6 @@ matrix_reader_init(const char *filename);
 matrix_t*
 matrix_reader_next(matrix_reader_t *r);
 
-/*
- *FIN
- */
-
 void
 matrix_reader_free(matrix_reader_t *r);
 #endif
