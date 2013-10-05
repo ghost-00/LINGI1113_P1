@@ -12,7 +12,6 @@
 #include <stdarg.h>
 
 #include "matrice.h"
-#include "buffer.h"
 #include "matrix_reader.h"
 #include "projet.h"
 
