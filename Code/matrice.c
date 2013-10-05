@@ -15,6 +15,8 @@ node_init(){
         exit(EXIT_FAILURE);
     }
     n->n_length=0; /*initialisation de la sous varialble length à zéro*/
+    n->n_head = NULL;
+    n->n_tail = NULL;
     return n;
 }
 matrix_t*
@@ -301,6 +303,7 @@ matrix_mul(matrix_t *m_one, matrix_t *m_two){
                     bit_prepend(m_result->m_tail, j, i);
                 }
             }
+	    row_free(&col);
         }
     }
     
@@ -358,7 +361,7 @@ matrix_free(matrix_t **m){
         {
             row_t *r_del = r_temp;
             r_temp = r_temp->r_next;
-            free(r_del);
+            row_free(&r_del);
         }
         free(*m), *m=NULL;
     }

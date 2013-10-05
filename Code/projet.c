@@ -30,12 +30,11 @@ matrix_t*
 multiplicator(node_t* buf){
     
     matrix_t *m_one = buf->n_head; /*On récupère la 1er matrice*/
-	matrix_t *m_temp = buf->n_head->m_next; /*on récupére la seconde matrice*/
+	matrix_t *m_two = buf->n_head->m_next; /*on récupére la seconde matrice*/
     
-    while(m_temp!=NULL){
-        m_one = matrix_mul(m_one, m_temp);
-        m_temp= m_temp->m_next;
-	}
+
+        m_one = matrix_mul(m_one, m_two);
+
     buf->n_head = NULL;
     buf->n_tail = NULL;
     buf->n_length = 0;
