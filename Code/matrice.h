@@ -142,38 +142,31 @@ matrix_print(matrix_t *m);
  */
 matrix_t*
 matrix_mul(matrix_t *a, matrix_t *b);
-
+/*
+ @pre : row != null, col != null
+ @post : renvoie l'entier qui correspond au résultat de l'opération
+ */
 int
 row_mul(row_t *row, row_t *col, int rPos, int cPos);
+/*
+ Methode qui free un buffer
+ @pre : n != NULL
+ @post : n est free
+ */
+void
+buf_free(node_t **n);
 /*
  Methode qui free une matrice
  @pre : m != NULL
  @post : m est free
  */
 void
-buf_free(node_t **n);
-
-void
 matrix_free(matrix_t **m);
-
+/*
+ Methode qui free une rangée
+ @pre : r != NULL
+ @post : r est free
+ */
 void
 row_free(row_t **r);
-
- /************************************************************************************************/
- /*FIN de la structure, le reste est à arranger ou à refaire ou à retirer en fonction des besoins*/
- /************************************************************************************************/
-
-
-typedef struct{
-	int row, col;
-	bit_t *first;
-}matrix;
-
-/*
- Methode qui free un element d'une matrice
- @pre : e != null
- @post : elem est free
-*/
-void elem_free(bit_t* e);
-
 #endif

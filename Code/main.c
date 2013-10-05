@@ -19,14 +19,14 @@
 
 int main (int argc, char* argv[])
 {
-	int o;
+	int o = 0;
 	char *outputFile, *inputFile = NULL;
-	int opt = FALSE;
+	int opt = 0;
 	
 	while((opt=getopt(argc,argv,"o:")) != -1){
 		switch (opt){
 			case 'o':
-				o = TRUE;
+				o = 1;
 				outputFile = optarg; /*On récupère le outputPath*/
 				break;
         	case '?':
@@ -40,23 +40,16 @@ int main (int argc, char* argv[])
     inputFile = (char*)argv[optind]; /*On récupère le inputpath*/
 
 	node_t* buf = read_file(inputFile); /*On extrait les matrices du fichier inputFile*/
-    
-    printf("nombre de matrice(s) : %d\n", buf->n_length);
-    
-    matrix_print(matrix_get(buf, 1));
-        
-	//matrix_t* p = multiplicator(buf);
-    
-    //matrix_print(p);
-    /*
-	if(output == 0)
-		matrix_print(sol);
-	else
-		matrix_writefile(sol,outFile);
-    
-	matrix_free(sol);
-	*/
-    //buffer_free(buf);
+
+    if (o==1) {
+        matrix_writefile(buf->n_head,outputFile);
+        printf("look at outputFile\n");
+    }
+    else {
+        matrix_print(buf->n_head);
+    }
+
+    buf_free(&buf);
 	return EXIT_SUCCESS;
      
 }

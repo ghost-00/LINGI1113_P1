@@ -39,40 +39,54 @@ multiplicator(node_t* buf){
     buf->n_head = NULL;
     buf->n_tail = NULL;
     buf->n_length = 0;
-
+    
 	return m_one;
 }
-/*
- *FIN
- */
 
-/*
- void matrix_writefile(matrix *sol,char *outFile){
- FILE* fichier = NULL;
- fichier = fopen(outFile, "w");
- if(fichier != NULL){
- if((fprintf(fichier, "%dx%d\n", sol->row, sol->col)) == -1){
- perror("error");
- exit(EXIT_FAILURE);
- }
- int i,j,a;
- bit_t* current=sol->first;
- for(i=0;i<sol->row;i++){
- for(j=0;j<sol->col;j++){
- a=matrix_get(current,i,j);
- if(a){
- //current=current->next;
- }
- if((fprintf(fichier,"%d ",a)) == -1) {
- perror("impossible d'ecrire dans le fichier");
- exit(EXIT_FAILURE);
- }
- }
- fprintf(fichier,"\n");
- 
- }
- }
- fclose(fichier);
- }
- */
+
+void
+matrix_writefile(matrix_t *result,char *outputFile){
+    
+    if (result!=NULL)
+    {
+        FILE* file = NULL;
+        file = fopen(outputFile, "w");
+        if(file != NULL){
+            if((fprintf(file, "%dx%d\n", result->nr_row, result->nr_col)) == -1){
+                perror("error");
+                exit(EXIT_FAILURE);
+            }
+            
+            int row=0,col=0,bit=0;
+            row_t *r_temp = result->m_head;
+            for (row=0; row < result->nr_row; row++)
+            {
+                bit_t *b_temp = r_temp->r_head;
+                for (col=0; col < result->nr_col; col++)
+                {
+                    bit = bit_getnext(b_temp, row, col);
+                    if (bit == 1) {
+                        if((fprintf(file,"%d ",1)) == -1) {
+                            perror("impossible d'ecrire dans le fichier");
+                            exit(EXIT_FAILURE);
+                        }
+                        
+                        if (b_temp->b_next!=NULL) {
+                            b_temp = b_temp->b_next;
+                        }
+                    }else{
+                        if((fprintf(file,"%d ",0)) == -1) {
+                            perror("impossible d'ecrire dans le fichier");
+                            exit(EXIT_FAILURE);
+                        }
+                    }
+                }
+                fprintf(file,"\n");
+                r_temp = r_temp->r_next;
+            }
+        }
+        fclose(file);
+    }
+}
+
 

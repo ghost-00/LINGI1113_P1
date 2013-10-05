@@ -65,7 +65,7 @@ struct matrix_t *dequeue(buffer *buf);
  @pre : buf != NULL.
  @post : buf et ses eventuels elements sont liberes.
 */
-void buffer_free(buffer *buf);
+void buffer_free(buffer **buf);
 
 /*
  Methode qui initialise et renvoie une node.

@@ -42,9 +42,9 @@ multiplicator(node_t* buf);
 
 /*
  Methode qui ecrit une matrice dans un fichier
- @pre : sol != null
- @post : sol est ecrite dans le fichier avec le path outFile
+ @pre : result != null
+ @post : result est ecrite dans le fichier avec le path outFile
 */
-void matrix_writefile(matrix *sol,char *outFile);
+void matrix_writefile(matrix_t *result,char *outputFile);
 
 #endif
