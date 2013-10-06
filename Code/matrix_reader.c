@@ -52,7 +52,7 @@ matrix_t
                 /*On ajoute le nouveau bit en fin de la liste m->m_tail 
                  *qui est liste de type row_t
                  */
-                bit_prepend(m->m_tail, j, i); 
+                bit_prepend(m->m_tail, j, i, bit);
             }
 		}
 	}

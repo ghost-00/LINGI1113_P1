@@ -61,16 +61,16 @@ matrix_writefile(matrix_t *result,char *outputFile){
                 exit(EXIT_FAILURE);
             }
             
-            int row=0,col=0,bit=0;
+            int row=0,col=0,val=0;
             row_t *r_temp = result->m_head;
             for (row=0; row < result->nr_row; row++)
             {
                 bit_t *b_temp = r_temp->r_head;
                 for (col=0; col < result->nr_col; col++)
                 {
-                    bit = bit_getnext(b_temp, row, col);
-                    if (bit == 1) {
-                        if((fprintf(file,"%d ",1)) == -1) {
+                    val = bit_getnext(b_temp, row, col);
+                    if (val > 0) {
+                        if((fprintf(file,"%d ", val)) == -1) {
                             perror("impossible d'ecrire dans le fichier");
                             exit(EXIT_FAILURE);
                         }

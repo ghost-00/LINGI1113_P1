@@ -70,7 +70,7 @@ row_alloc(matrix_t *m);
  @post : un bit est ajouté en debut de la liste r.
  */
 void
-bit_prepend(row_t *r, int cpos, int rpos);
+bit_prepend(row_t *r, int cpos, int rpos, int val);
 /*
  Methode qui ajoute au debut de la liste m une ligne
  et qui aura en mémoire la position de la prochaine et de la précédente ligne de la matrice

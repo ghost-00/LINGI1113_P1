@@ -49,14 +49,14 @@ row_alloc(matrix_t *m){
 }
 
 void
-bit_prepend(row_t *r, int col, int row){
+bit_prepend(row_t *r, int col, int row, int val){
     
     if (r!=NULL) {
         bit_t *b_new = malloc(sizeof(bit_t));
         if (!b_new) {
             free(r);
         }
-        b_new->val = 1;
+        b_new->val = val;
         b_new->cPos = col;
         b_new->rPos = row;
         
@@ -184,7 +184,7 @@ matrix_print(matrix_t *m)
         printf("matrix_print : m == NULL");
         exit(EXIT_FAILURE);
     }
-    int bit=0, row=0, col=0;
+    int val=0, row=0, col=0;
     
     
     printf("%dx%d\n", m->nr_row, m->nr_col);
@@ -194,10 +194,10 @@ matrix_print(matrix_t *m)
         bit_t *b_temp = r_temp->r_head;
         for (col=0; col < m->nr_col; col++) {
             
-            bit = bit_getnext(b_temp, row, col);
+            val = bit_getnext(b_temp, row, col);
             
-            if (bit == 1) {
-                printf("%d ", 1);
+            if (val > 0) {
+                printf("%d ", val);
                 if (b_temp->b_next!=NULL) {
                     b_temp = b_temp->b_next;
                 }
@@ -216,7 +216,7 @@ bit_getnext(bit_t* current_b,int current_row, int current_col)
 	if(current_b!=NULL)
 	{
 		if ((current_b->rPos == current_row) && (current_b->cPos == current_col)) {
-            return 1;
+            return current_b->val;
         }
 	}
     return 0;
@@ -256,7 +256,7 @@ col_get(matrix_t *m, int c)
         while (b_temp!=NULL) {
             
             if (b_temp->cPos == (c-1)) {
-                bit_prepend(c_new, c-1, b_temp->rPos);
+                bit_prepend(c_new, c-1, b_temp->rPos, b_temp->val);
                 //printf("%d \n",b_temp->val);
             }
             b_temp = b_temp->b_next;
@@ -297,7 +297,7 @@ matrix_mul(matrix_t *m_one, matrix_t *m_two){
     
     matrix_t *m_result = matrix_alloc(m_one->nr_row, m_two->nr_col);
 
-	int i=0, j=0, bit;
+	int i=0, j=0, val;
     row_t *row=NULL, *col=NULL ;
     
     for (i=0; i<m_one->nr_row; i++) {
@@ -307,9 +307,9 @@ matrix_mul(matrix_t *m_one, matrix_t *m_two){
             col = col_get(m_two, (j+1));
             
             if (col!=NULL && row!=NULL) {
-                bit = row_mul(row, col, i, j);
-                if (bit==1) {
-                    bit_prepend(m_result->m_tail, j, i);
+                val = row_mul(row, col, i, j);
+                if (val>0) {
+                    bit_prepend(m_result->m_tail, j, i, val);
                 }
             }
             row_free(&col);
@@ -333,10 +333,10 @@ row_mul(row_t *row, row_t *col, int rPos, int cPos){
         r_bit = bit_getnext(rowb_temp, rPos, i);
         c_bit = bit_getnext(colb_temp, i, cPos);
         acc = acc + (r_bit * c_bit);
-        if (r_bit == 1) {
+        if (r_bit > 0) {
             rowb_temp = rowb_temp->b_next;
         }
-        if (c_bit == 1) {
+        if (c_bit > 0) {
             colb_temp = colb_temp->b_next;
         }
     }
