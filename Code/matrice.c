@@ -20,7 +20,7 @@ node_init(){
     return n;
 }
 matrix_t*
-matrix_alloc(int col, int row){
+matrix_alloc(int row, int col){
 	matrix_t *m;
 	m = (matrix_t*)malloc(sizeof(matrix_t));
 	if(!m)
@@ -281,28 +281,29 @@ matrix_get(node_t* n, int m){
     {
         m_temp = m_temp->m_next;
         i++;
-    }    
+    }
     return m_temp;
 }
 
 matrix_t*
 matrix_mul(matrix_t *m_one, matrix_t *m_two){
     
-    if (m_one->nr_row != m_two->nr_col || m_one->nr_col!=m_two->nr_row) {
+    if (m_one->nr_col!=m_two->nr_row) {
         printf("Matrices incompatibles\n");
         matrix_free(&m_one); /*on libère l'espace mémoire attribué à ces deux matrices*/
         matrix_free(&m_two);
         return NULL;
     }
     
-    matrix_t *m_result = matrix_alloc(m_two->nr_col, m_one->nr_row);
+    matrix_t *m_result = matrix_alloc(m_one->nr_row, m_two->nr_col);
+
 	int i=0, j=0, bit;
     row_t *row=NULL, *col=NULL ;
     
-    for (i=0; i<m_two->nr_col; i++) {
+    for (i=0; i<m_one->nr_row; i++) {
         row_prepend(m_result);
         row = row_get(m_one, (i+1));
-        for (j=0; j<m_one->nr_row; j++) {
+        for (j=0; j<m_two->nr_col; j++) {
             col = col_get(m_two, (j+1));
             
             if (col!=NULL && row!=NULL) {
@@ -311,13 +312,12 @@ matrix_mul(matrix_t *m_one, matrix_t *m_two){
                     bit_prepend(m_result->m_tail, j, i);
                 }
             }
-	    row_free(&col);
+            row_free(&col);
         }
     }
     
     matrix_free(&m_one); /*on libère l'espace mémoire attribué à ces deux matrices*/
     matrix_free(&m_two);
-    
     return m_result;
 }
 
@@ -353,7 +353,7 @@ buf_free(node_t **n){
         {
             matrix_t *m_del = m_temp;
             m_temp = m_temp->m_next;
-
+            
             matrix_free(&m_del);
         }
         free(*n), *n=NULL;

@@ -38,7 +38,7 @@ matrix_t
     if (fscanf(reader->f,"%dx%d\n", &row, &col) == EOF)
         return 0;
     
-    matrix_t *m = matrix_alloc(col, row); /*Allocation mémoire*/
+    matrix_t *m = matrix_alloc(row, col); /*Allocation mémoire*/
     
 	for (i = 0; i < m->nr_row; ++i) {
         row_prepend(m); /*On ajoute la nouvelle ligne en début de la liste m*/

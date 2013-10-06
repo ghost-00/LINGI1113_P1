@@ -57,7 +57,7 @@ node_init();
  @post : une matrice alloué est renvoyé et contient le nombre de colonne et de ligne
  */
 matrix_t*
-matrix_alloc(int col, int row);
+matrix_alloc(int row, int col);
 /*
  Methode qui initialise une ligne de la matrice
  @post : une structure row_t alloué est renvoyé
